@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Desafio 0</title>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script>
+			var cep = JSON.parse(sessionStorage.getItem('cep_pesquisa1'));
+			console.log(cep);
+		</script>
+		
+	</head>
+	
+	<body>
+		<!--Cabecalho-->
+		<header>
+			<h2>Consulta CEP</h2>
+		</header>
+		
+		<!--Parte principal-->
+		<main>
+			<div>
+				<form>
+				  <label>CEP: <input type="text" name="cep" readonly="readonly"></label><br />
+				  <label>Logradouro: <input type="text" name="logradouro" readonly="readonly"></label><br />
+				  <label>Bairro: <input type="text" name="bairro" readonly="readonly"></label><br />
+				  <label>Estado: <input type="text" name="estado" readonly="readonly"></label><br />
+				</form>
+
+			</div>
+			
+			
+		</main>
+	</body>
+</html>

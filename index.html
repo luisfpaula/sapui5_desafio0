@@ -1,0 +1,155 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Desafio 0</title>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script>
+			window.onload = function(){
+				$("#btnsearch1").on('click', btnSearch1);
+				$("#btnsearch2").on('click', btnSearch2);
+				$("#btnsearch3").on('click', btnSearch3);
+				
+				$("btnsearch3[type=submit]").attr("disabled", "disabled");
+			}
+
+			function pesquisaCep(valor, div_campos, pesquisa){
+				//Nova variável "cep" somente com dígitos.
+                var cep = valor.replace(/\D/g, '');
+                
+                //Verifica se campo cep possui valor informado.
+                if (cep != "") {
+                	var url = "https://viacep.com.br/ws/"+ cep +"/json/";
+					$.get(url ,function(dadosCep){
+						console.log(dadosCep);
+
+						if (!("erro" in dadosCep)) {
+							div_campos.fadeIn();
+						
+							switch(pesquisa) {
+							    case 2:
+							        //Atualiza os campos com os valores da consulta.
+									$("#cep2").val(dadosCep.cep);
+									$("#logradouro2").val(dadosCep.logradouro);
+									$("#bairro2").val(dadosCep.bairro);
+									$("#estado2").val(dadosCep.uf);
+							        break;
+							    case 3:
+							        //Atualiza os campos com os valores da consulta.
+									$("#cep3").val(dadosCep.cep);
+									$("#logradouro3").val(dadosCep.logradouro);
+									$("#bairro3").val(dadosCep.bairro);
+									$("#estado3").val(dadosCep.uf);
+							        break;
+							    default:
+							       alert("Informar uma opção válida!");
+							}
+ 
+                        } //end if.
+                        else {
+                            //CEP pesquisado não foi encontrado.
+                            alert("CEP não encontrado.");
+                        }
+					});
+                }
+			}
+			
+			function btnSearch1(){
+				
+			}
+
+			function btnSearch2(){
+				pesquisaCep($("#cep_pesquisa2").val(), $("#infos_cep2"), 2);
+			}
+			
+			function btnSearch3(){
+				pesquisaCep($("#cep_pesquisa3").val(), $("#infos_cep3"), 3);
+			}
+			
+			jQuery(function($) {
+			  $(document).on('keypress', 'input.somente-numero', function(e) {
+			  var square = document.getElementById("cep_pesquisa3");
+			    var key = (window.event)?event.keyCode:e.which;
+			    
+				if((key > 47 && key < 58) || key == 13) {
+			    	var qtdCaracteres = $("#cep_pesquisa3").val().length;
+			    	if(qtdCaracteres >= 7 && qtdCaracteres <= 8){
+			    		$("#btnsearch3").prop("disabled",false);	
+			    	}else{
+			    		$("#btnsearch3").prop("disabled",true);
+			    		$("#infos_cep3").hide();
+			    	}
+			    	
+			    	return true;
+			  	}else {
+			 		return (key == 8 || key == 0)?true:false;
+			 	}
+			  });
+			});
+		</script>
+		
+	</head>
+	
+	<body>
+		<!--Cabecalho-->
+		<header>
+			<h2>Desafio 0</h2>
+		</header>
+		
+		<!--Parte principal-->
+		<main>
+			<div>
+				<h3>1.1. Parte 1 - Multipage app</h3>
+				
+				<form>
+				  CEP: <input type="text" name="cep_pesquisa1">
+				</form>
+				
+				<button id="btnsearch1">Pesquisar</button>
+
+			</div>
+			
+			<div>
+				<h3>1.2. Parte 2 - Single page app</h3>
+				
+				<form>
+				  CEP: <input type="text" name="cep_pesquisa2" id="cep_pesquisa2">
+				</form>
+				
+				<button id="btnsearch2">Pesquisar</button>
+				
+				<div>
+					<form id="infos_cep2" hidden = true>
+						<br />
+						<label>CEP: <input type="text" name="cep" id="cep2" readonly="readonly"></label><br />
+						<label>Logradouro: <input type="text" name="logradouro" id="logradouro2" readonly="readonly"></label><br />
+						<label>Bairro: <input type="text" name="bairro" id="bairro2" readonly="readonly"></label><br />
+						<label>Estado: <input type="text" name="estado" id="estado2" readonly="readonly"></label><br />
+					</form>
+				</div>
+				
+			</div>
+			
+			<div>
+				<h3>1.3. Parte 3 - Tratamento de erros</h3>
+				
+				<form>
+				  CEP: <input type="text" name="cep_pesquisa3" id="cep_pesquisa3" class="somente-numero">
+				</form>
+				
+				<button id="btnsearch3" disabled='disabled'>Pesquisar</button>
+				
+				<div>
+					<form id="infos_cep3" hidden = true>
+						<br />
+						<label>CEP: <input type="text" name="cep" id="cep3" readonly="readonly"></label><br />
+						<label>Logradouro: <input type="text" name="logradouro" id="logradouro3" readonly="readonly"></label><br />
+						<label>Bairro: <input type="text" name="bairro" id="bairro3" readonly="readonly"></label><br />
+						<label>Estado: <input type="text" name="estado" id="estado3" readonly="readonly"></label><br />
+					</form>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>
